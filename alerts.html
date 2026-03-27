@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alert History - Fire Monitoring System</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .back-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .back-btn:hover { background: #5568d3; }
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .filters input, .filters select, .filters button {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        .filters button {
+            background: #667eea;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .filters button:hover { background: #5568d3; }
+        .alert-grid {
+            display: grid;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .alert-card {
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+        .alert-card.HIGH { border-color: #ff9800; background: #fff3e0; }
+        .alert-card.CRITICAL { border-color: #f44336; background: #ffebee; }
+        .alert-card.MEDIUM { border-color: #ffc107; background: #fffde7; }
+        .alert-card.cleared { opacity: 0.6; }
+        .alert-info h3 { color: #333; margin-bottom: 5px; }
+        .alert-info p { color: #666; font-size: 14px; margin: 3px 0; }
+        .alert-badge {
+            background: #f44336;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        .alert-badge.cleared { background: #4caf50; }
+        .clear-btn {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .clear-btn:hover { background: #45a049; }
+        .clear-btn:disabled { background: #ccc; cursor: not-allowed; }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .stat-card h2 { font-size: 32px; margin-bottom: 5px; }
+        .stat-card p { font-size: 14px; opacity: 0.9; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            🚨 Alert History
+            <button class="back-btn" onclick="window.location.href='advance.html'">← Back to Dashboard</button>
+        </h1>
+
+        <div class="stats" id="stats"></div>
+
+        <div class="filters">
+            <input type="number" id="moduleFilter" placeholder="Module Number" min="1">
+            <input type="date" id="startDate">
+            <input type="date" id="endDate">
+            <select id="statusFilter">
+                <option value="">All Alerts</option>
+                <option value="false">Active Only</option>
+                <option value="true">Cleared Only</option>
+            </select>
+            <button onclick="loadAlerts()">🔍 Filter</button>
+            <button onclick="clearFilters()">Clear Filters</button>
+        </div>
+
+        <div class="alert-grid" id="alertGrid"></div>
+    </div>
+
+    <script>
+        let currentUser = null;
+
+        // Load user from localStorage
+        window.onload = function() {
+            const userData = localStorage.getItem('currentUser');
+            if (userData) {
+                currentUser = JSON.parse(userData);
+            }
+            loadStats();
+            loadAlerts();
+        };
+
+        async function loadStats() {
+            try {
+                const res = await fetch('/api/alerts/today-count');
+                const data = await res.json();
+                
+                const totalRes = await fetch('/api/alerts?is_cleared=false');
+                const totalData = await totalRes.json();
+
+                document.getElementById('stats').innerHTML = `
+                    <div class="stat-card">
+                        <h2>${data.count || 0}</h2>
+                        <p>Alerts Today</p>
+                    </div>
+                    <div class="stat-card">
+                        <h2>${totalData.alerts?.length || 0}</h2>
+                        <p>Active Alerts</p>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Stats error:', error);
+            }
+        }
+
+        async function loadAlerts() {
+            try {
+                let url = '/api/alerts?';
+                const module = document.getElementById('moduleFilter').value;
+                const start = document.getElementById('startDate').value;
+                const end = document.getElementById('endDate').value;
+                const status = document.getElementById('statusFilter').value;
+
+                if (module) url += `module_no=${module}&`;
+                if (start) url += `start_date=${start}&`;
+                if (end) url += `end_date=${end}&`;
+                if (status) url += `is_cleared=${status}&`;
+
+                const res = await fetch(url);
+                const data = await res.json();
+
+                const grid = document.getElementById('alertGrid');
+                if (!data.alerts || data.alerts.length === 0) {
+                    grid.innerHTML = '<p style="text-align:center;color:#999;padding:40px;">No alerts found</p>';
+                    return;
+                }
+
+                grid.innerHTML = data.alerts.map(alert => `
+                    <div class="alert-card ${alert.severity} ${alert.is_cleared ? 'cleared' : ''}">
+                        <div class="alert-info">
+                            <h3>Module ${alert.module_no} - ${alert.alert_type.replace(/_/g, ' ')}</h3>
+                            <p><strong>Message:</strong> ${alert.message}</p>
+                            <p><strong>Time:</strong> ${new Date(alert.created_at).toLocaleString()}</p>
+                            ${alert.is_cleared ? `<p><strong>Cleared:</strong> ${new Date(alert.cleared_at).toLocaleString()}</p>` : ''}
+                        </div>
+                        <div>
+                            <div class="alert-badge ${alert.is_cleared ? 'cleared' : ''}">${alert.is_cleared ? 'CLEARED' : alert.severity}</div>
+                            ${!alert.is_cleared ? `<button class="clear-btn" onclick="clearAlert(${alert.id})">Clear Alert</button>` : ''}
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Load alerts error:', error);
+            }
+        }
+
+        async function clearAlert(id) {
+            if (!confirm('Clear this alert?')) return;
+
+            try {
+                const res = await fetch(`/api/alerts/clear/${id}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: currentUser?.id })
+                });
+
+                if (res.ok) {
+                    loadAlerts();
+                    loadStats();
+                }
+            } catch (error) {
+                console.error('Clear alert error:', error);
+            }
+        }
+
+        function clearFilters() {
+            document.getElementById('moduleFilter').value = '';
+            document.getElementById('startDate').value = '';
+            document.getElementById('endDate').value = '';
+            document.getElementById('statusFilter').value = '';
+            loadAlerts();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!-- 
+  NEW FEATURE INTEGRATION FOR advance.html
+  Copy these snippets to integrate enhanced features
+-->
+
+<!-- ============================================
+     STEP 1: Add Socket.IO Client Library
+     Location: Before </body> tag
+     ============================================ -->
+<script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+<script src="public/websocket-client.js"></script>
+
+
+<!-- ============================================
+     STEP 2: Modify doLogin() Function
+     Location: Inside doLogin() after startLivePolling();
+     ============================================ -->
+<script>
+// Find this line in doLogin():
+// startLivePolling();
+
+// Add immediately after:
+// NEW FEATURE: Initialize WebSocket
+try {
+    initializeWebSocket();
+} catch (e) {
+    console.log('WebSocket disabled, using polling only');
+}
+</script>
+
+
+<!-- ============================================
+     STEP 3: Enhance showParams() Function
+     Location: Inside showParams() after displayRows array
+     ============================================ -->
+<script>
+// Find the displayRows array in showParams()
+// Add these new rows to the array:
+
+// NEW FEATURE: ML Confidence Score
+if (row.ml_confidence !== null && row.ml_confidence !== undefined) {
+    displayRows.push({ 
+        name: '🎯 ML Confidence', 
+        val: (row.ml_confidence * 100).toFixed(1) + '%' 
+    });
+}
+
+// NEW FEATURE: Anomaly Detection
+if (row.anomaly_score !== null && row.anomaly_score !== undefined) {
+    displayRows.push({ 
+        name: '⚠️ Anomaly Score', 
+        val: (row.anomaly_score * 100).toFixed(1) + '%' 
+    });
+}
+
+if (row.is_anomaly) {
+    displayRows.push({ 
+        name: '🚨 Anomaly Status', 
+        val: 'ANOMALY DETECTED' 
+    });
+}
+</script>
+
+
+<!-- ============================================
+     STEP 4: Add Visual Indicator for ML Confidence
+     Location: In paramValue div styling (optional)
+     ============================================ -->
+<style>
+/* NEW FEATURE: Color code ML confidence */
+.confidence-high { color: #10b981; font-weight: 800; }
+.confidence-medium { color: #f59e0b; font-weight: 800; }
+.confidence-low { color: #ef4444; font-weight: 800; }
+</style>
+
+<script>
+// In showParams(), when creating valDiv for ML Confidence:
+if (p.name.includes('ML Confidence')) {
+    const confidence = parseFloat(p.val);
+    if (confidence > 80) valDiv.classList.add('confidence-high');
+    else if (confidence > 60) valDiv.classList.add('confidence-medium');
+    else valDiv.classList.add('confidence-low');
+}
+</script>
+
+
+<!-- ============================================
+     STEP 5: Add Connection Status Indicator (Optional)
+     Location: In leftPanel or menuBlock
+     ============================================ -->
+<div id="connectionStatus" style="padding:10px; background:#f3f4f6; border-radius:8px; margin-bottom:10px; display:none;">
+    <span id="wsStatus">🔴 Connecting...</span>
+</div>
+
+<script>
+// Update in websocket-client.js socket.on('connect'):
+socket.on('connect', () => {
+    document.getElementById('wsStatus').innerHTML = '🟢 Real-time Connected';
+    document.getElementById('connectionStatus').style.display = 'block';
+});
+
+socket.on('disconnect', () => {
+    document.getElementById('wsStatus').innerHTML = '🟡 Using Polling Mode';
+});
+</script>
+
+
+<!-- ============================================
+     COMPLETE INTEGRATION EXAMPLE
+     ============================================ -->
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Your existing head content -->
+</head>
+<body>
+    <!-- Your existing body content -->
+    
+    <!-- NEW FEATURE: Add before closing </body> -->
+    <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+    <script src="public/websocket-client.js"></script>
+    
+    <script>
+        // Modify existing doLogin() function
+        async function doLogin() {
+            // ... existing login code ...
+            
+            // After successful login and startLivePolling():
+            
+            // NEW FEATURE: Initialize WebSocket
+            try {
+                initializeWebSocket();
+            } catch (e) {
+                console.log('WebSocket disabled');
+            }
+        }
+        
+        // Modify existing showParams() function
+        function showParams(sr, value) {
+            // ... existing code ...
+            
+            const displayRows = [
+                // ... existing rows ...
+            ];
+            
+            // NEW FEATURE: Add ML confidence and anomaly data
+            if (row.ml_confidence) {
+                displayRows.push({ 
+                    name: '🎯 ML Confidence', 
+                    val: (row.ml_confidence * 100).toFixed(1) + '%' 
+                });
+            }
+            
+            if (row.anomaly_score) {
+                displayRows.push({ 
+                    name: '⚠️ Anomaly Score', 
+                    val: (row.anomaly_score * 100).toFixed(1) + '%' 
+                });
+            }
+            
+            // ... rest of existing code ...
+        }
+    </script>
+</body>
+</html>
+
+
+<!-- ============================================
+     TESTING CHECKLIST
+     ============================================ -->
+<!--
+1. ✅ Socket.IO script loads (check Network tab)
+2. ✅ websocket-client.js loads
+3. ✅ Console shows "✓ WebSocket connected"
+4. ✅ ML Confidence appears in parameter panel
+5. ✅ Anomaly Score appears when detected
+6. ✅ Browser notifications work (allow permission)
+7. ✅ Real-time updates without page refresh
+-->
+
+
+<!-- ============================================
+     ROLLBACK
+     ============================================ -->
+<!--
+To disable new features:
+1. Remove Socket.IO script tags
+2. Remove initializeWebSocket() call
+3. System works exactly as before
+-->

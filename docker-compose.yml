@@ -1,0 +1,31 @@
+# NEW FEATURE: Docker Compose Configuration
+version: '3.8'
+
+services:
+  backend:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - JWT_SECRET=${JWT_SECRET}
+      - EMAIL_HOST=${EMAIL_HOST}
+      - EMAIL_PORT=${EMAIL_PORT}
+      - EMAIL_USER=${EMAIL_USER}
+      - EMAIL_PASS=${EMAIL_PASS}
+    depends_on:
+      - ml_service
+    networks:
+      - fire-monitoring
+
+  ml_service:
+    build: ./ml_service
+    ports:
+      - "5001:5001"
+      - "5002:5002"
+    networks:
+      - fire-monitoring
+
+networks:
+  fire-monitoring:
+    driver: bridge
