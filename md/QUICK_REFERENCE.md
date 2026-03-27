@@ -61,17 +61,17 @@ GET /api/commands/device-command/latest?module_no=1
 ### cURL Commands
 ```bash
 # Send START
-curl -X POST http://localhost:3000/api/commands \
+curl -X POST https://fire-monitoring.onrender.com/api/commands \
   -H "Content-Type: application/json" \
   -d '{"module_no": 1, "command": "START"}'
 
 # Send STOP
-curl -X POST http://localhost:3000/api/commands \
+curl -X POST https://fire-monitoring.onrender.com/api/commands \
   -H "Content-Type: application/json" \
   -d '{"module_no": 1, "command": "STOP"}'
 
 # Get latest
-curl http://localhost:3000/api/commands/device-command/latest?module_no=1
+curl https://fire-monitoring.onrender.com/api/commands/device-command/latest?module_no=1
 ```
 
 ### Node.js Test

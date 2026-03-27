@@ -1,7 +1,7 @@
 // Test Device Commands API
 // Run this with: node test_device_commands.js
 
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'https://fire-monitoring.onrender.com';
 
 async function testDeviceCommands() {
     console.log('🧪 Testing Device Commands API\n');

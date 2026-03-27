@@ -21,11 +21,11 @@ router.post('/', async (req, res) => {
 ### 2. **advance.html** - Fixed Frontend Endpoint
 Changed `rapidShutdown()` function from:
 ```javascript
-fetch('http://localhost:3000/api/device-command', ...)
+fetch('https://fire-monitoring.onrender.com/api/device-command', ...)
 ```
 To:
 ```javascript
-fetch('http://localhost:3000/api/commands', ...)
+fetch('https://fire-monitoring.onrender.com/api/commands', ...)
 ```
 
 ### 3. **Database Migration** - device_commands_migration.sql
@@ -94,17 +94,17 @@ npm start
 ### 4. Test with cURL
 ```bash
 # Send START command
-curl -X POST http://localhost:3000/api/commands \
+curl -X POST https://fire-monitoring.onrender.com/api/commands \
   -H "Content-Type: application/json" \
   -d '{"module_no": 1, "command": "START"}'
 
 # Send STOP command
-curl -X POST http://localhost:3000/api/commands \
+curl -X POST https://fire-monitoring.onrender.com/api/commands \
   -H "Content-Type: application/json" \
   -d '{"module_no": 1, "command": "STOP"}'
 
 # Get latest command
-curl http://localhost:3000/api/commands/device-command/latest?module_no=1
+curl https://fire-monitoring.onrender.com/api/commands/device-command/latest?module_no=1
 ```
 
 ### 5. Run Test Script

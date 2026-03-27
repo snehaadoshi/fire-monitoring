@@ -12,7 +12,7 @@ const options = {
     },
     servers: [
       {
-        url: 'http://localhost:3000',
+        url: 'https://fire-monitoring.onrender.com',
         description: 'Development server'
       }
     ]

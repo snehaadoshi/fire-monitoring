@@ -94,21 +94,21 @@ if (httpCode == 200) {
 
 ### Send START command:
 ```bash
-curl -X POST http://localhost:3000/api/commands/device-command \
+curl -X POST https://fire-monitoring.onrender.com/api/commands/device-command \
   -H "Content-Type: application/json" \
   -d '{"module_no": 1, "command": "START"}'
 ```
 
 ### Send STOP command:
 ```bash
-curl -X POST http://localhost:3000/api/commands/device-command \
+curl -X POST https://fire-monitoring.onrender.com/api/commands/device-command \
   -H "Content-Type: application/json" \
   -d '{"module_no": 1, "command": "STOP"}'
 ```
 
 ### Get latest command:
 ```bash
-curl http://localhost:3000/api/commands/device-command/latest?module_no=1
+curl https://fire-monitoring.onrender.com/api/commands/device-command/latest?module_no=1
 ```
 
 ## Notes

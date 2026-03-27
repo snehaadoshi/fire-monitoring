@@ -147,7 +147,7 @@ Your **Early Fire Monitoring System** has been successfully enhanced with **9 ad
    ```
 
 5. **Access Dashboard**
-   Open: `http://localhost:3000`
+   Open: `https://fire-monitoring.onrender.com`
 
 **Deployment Time**: ~10 minutes
 
@@ -375,9 +375,9 @@ Your fire monitoring system is now **production-ready** with:
 - `ENHANCED_README.md` - Full docs
 
 ### Important URLs
-- Dashboard: `http://localhost:3000`
-- Alerts: `http://localhost:3000/alerts.html`
-- Health API: `http://localhost:3000/api/alerts/health`
+- Dashboard: `https://fire-monitoring.onrender.com`
+- Alerts: `https://fire-monitoring.onrender.com/alerts.html`
+- Health API: `https://fire-monitoring.onrender.com/api/alerts/health`
 
 ### Important Commands
 ```bash

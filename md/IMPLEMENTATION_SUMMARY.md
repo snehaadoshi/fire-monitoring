@@ -43,7 +43,7 @@
 - **Docs:** `swagger/apiDocs.js`
 - **Integration:** `server_enhanced.js`
 - **Status:** Ready to use
-- **Access:** http://localhost:3000/api/docs
+- **Access:** https://fire-monitoring.onrender.com/api/docs
 
 ---
 
@@ -176,7 +176,7 @@ socket.connected // Should be true
 ### Test Email
 ```bash
 # Trigger high temp alert
-curl -X POST http://localhost:3000/api/sensor \
+curl -X POST https://fire-monitoring.onrender.com/api/sensor \
   -H "Content-Type: application/json" \
   -d '{"module_no":1,"voltage":230,"current":5,"temperature":80,"humidity":50,"smoke":400}'
 ```
@@ -197,7 +197,7 @@ curl -X POST http://localhost:5002/detect \
 
 ### Test Swagger
 ```
-Visit: http://localhost:3000/api/docs
+Visit: https://fire-monitoring.onrender.com/api/docs
 ```
 
 ---

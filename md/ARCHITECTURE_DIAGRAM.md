@@ -101,7 +101,7 @@
 ┌─────────────────────────────────────────────────────────────────────┐
 │                      API DOCUMENTATION (NEW)                         │
 │                                                                      │
-│  http://localhost:3000/api/docs                                      │
+│  https://fire-monitoring.onrender.com/api/docs                                      │
 │                                                                      │
 │  Interactive Swagger UI for all endpoints                            │
 └─────────────────────────────────────────────────────────────────────┘

@@ -55,7 +55,7 @@ npm run dev
 
 ## Usage
 
-1. **Access**: Open http://localhost:3000
+1. **Access**: Open https://fire-monitoring.onrender.com
 2. **Add Users**: Click "Add User" to register new users
 3. **Login**: Use email/password (no site name required)
 4. **Monitor**: View fire risk dashboard

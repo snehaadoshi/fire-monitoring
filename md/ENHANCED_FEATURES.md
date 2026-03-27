@@ -151,7 +151,7 @@ docker-compose logs -f
 **How to Enable:**
 1. Install dependencies: `npm install swagger-jsdoc swagger-ui-express`
 2. Use enhanced server: `npm run start:enhanced`
-3. Access docs: http://localhost:3000/api/docs
+3. Access docs: https://fire-monitoring.onrender.com/api/docs
 
 **Features:**
 - Interactive API documentation
@@ -266,7 +266,7 @@ curl -X POST http://localhost:5002/detect \
 ```
 
 ### Test Swagger
-Visit: http://localhost:3000/api/docs
+Visit: https://fire-monitoring.onrender.com/api/docs
 
 ---
 

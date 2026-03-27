@@ -48,7 +48,7 @@ initializeWebSocket(); // NEW FEATURE
 ### 6. Test (1 minute)
 - Login to dashboard
 - Check browser console: "✓ WebSocket connected"
-- Visit: http://localhost:3000/api/docs
+- Visit: https://fire-monitoring.onrender.com/api/docs
 - Trigger alert (high temp) → Check email
 
 ---

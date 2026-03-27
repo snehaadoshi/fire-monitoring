@@ -8,7 +8,7 @@ let socketConnected = false;
 function initializeWebSocket() {
   try {
     // Load Socket.IO client
-    socket = io('http://localhost:3000', {
+    socket = io('https://fire-monitoring.onrender.com', {
       transports: ['websocket', 'polling'],
       reconnection: true,
       reconnectionDelay: 1000,

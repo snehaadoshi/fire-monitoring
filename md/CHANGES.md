@@ -484,15 +484,15 @@ Potential future additions:
 ### Feature Verification
 ```bash
 # Test alert creation
-curl -X POST http://localhost:3000/api/sensor \
+curl -X POST https://fire-monitoring.onrender.com/api/sensor \
   -H "Content-Type: application/json" \
   -d '{"module_no":1,"voltage":5,"current":2.5,"temperature":60,"humidity":45,"smoke":350}'
 
 # Check system health
-curl http://localhost:3000/api/alerts/health
+curl https://fire-monitoring.onrender.com/api/alerts/health
 
 # Get alerts
-curl http://localhost:3000/api/alerts
+curl https://fire-monitoring.onrender.com/api/alerts
 ```
 
 ---

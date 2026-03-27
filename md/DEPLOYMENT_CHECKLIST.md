@@ -163,7 +163,7 @@ if (row.ml_confidence) {
 - [ ] Alert created if score > 0.5
 
 ### 17. Test Swagger Docs
-- [ ] Visit http://localhost:3000/api/docs
+- [ ] Visit https://fire-monitoring.onrender.com/api/docs
 - [ ] Swagger UI loads
 - [ ] All endpoints documented
 - [ ] Can test endpoints
@@ -344,7 +344,7 @@ docker-compose up -d
 ### Check Status
 ```bash
 # Backend
-curl http://localhost:3000/api/sensor/test
+curl https://fire-monitoring.onrender.com/api/sensor/test
 
 # ML Service
 curl http://localhost:5001/predict -X POST -H "Content-Type: application/json" -d '{"voltage":230,"current":5,"temperature":60,"humidity":50,"smoke":400}'
@@ -353,7 +353,7 @@ curl http://localhost:5001/predict -X POST -H "Content-Type: application/json" -
 curl http://localhost:5002/detect -X POST -H "Content-Type: application/json" -d '{"voltage":230,"current":5,"temperature":60,"humidity":50,"smoke":400}'
 
 # Swagger
-curl http://localhost:3000/api/docs
+curl https://fire-monitoring.onrender.com/api/docs
 ```
 
 ---

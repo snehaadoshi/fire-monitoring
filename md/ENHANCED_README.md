@@ -209,7 +209,7 @@ npm run dev
 ## 🎯 USAGE GUIDE
 
 ### Accessing the System
-1. Open `http://localhost:3000`
+1. Open `https://fire-monitoring.onrender.com`
 2. Login with your credentials
 3. Dashboard loads automatically
 

@@ -333,7 +333,7 @@ router.post('/test', async (req, res) => {
 
 **Test with curl:**
 ```bash
-curl -X POST http://localhost:3000/api/commands/test
+curl -X POST https://fire-monitoring.onrender.com/api/commands/test
 ```
 
 ---

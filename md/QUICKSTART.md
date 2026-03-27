@@ -29,7 +29,7 @@ npm start
 ```
 
 ### 5. Access Dashboard
-Open browser: `http://localhost:3000`
+Open browser: `https://fire-monitoring.onrender.com`
 
 ---
 
@@ -84,7 +84,7 @@ npm start
 ### Test 1: Alert System
 ```bash
 # Send test data with high temperature
-curl -X POST http://localhost:3000/api/sensor \
+curl -X POST https://fire-monitoring.onrender.com/api/sensor \
   -H "Content-Type: application/json" \
   -d '{
     "module_no": 1,
