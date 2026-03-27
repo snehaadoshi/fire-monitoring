@@ -4,7 +4,7 @@ const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
 const { Pool } = require('pg');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 require('dotenv').config();
 const axios = require('axios');
 
@@ -456,7 +456,7 @@ app.post('/api/sensor', async (req, res) => {
 
     try {
       const mlResponse = await axios.post(
-        'http://127.0.0.1:5001/predict',
+        'https://your-ml-api.onrender.com/predict',
         { voltage, current, temperature, humidity, smoke },
         { timeout: 2000 }
       );
